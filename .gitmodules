@@ -1,0 +1,6 @@
+[submodule "Formats"]
+	path = Formats
+	url = https://github.com/horsicq/Formats.git
+[submodule "QYara"]
+	path = QYara
+	url = https://github.com/horsicq/QYara.git
