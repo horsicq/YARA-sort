@@ -4,3 +4,6 @@
 [submodule "QYara"]
 	path = QYara
 	url = https://github.com/horsicq/QYara.git
+[submodule "QOpenSSL"]
+	path = QOpenSSL
+	url = https://github.com/horsicq/QOpenSSL.git
