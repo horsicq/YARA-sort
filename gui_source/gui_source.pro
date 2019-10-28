@@ -23,6 +23,7 @@ FORMS += \
 
 !contains(XCONFIG, qyara) {
         XCONFIG += qyara
+        DEFINES += X_YARA_LEGACY_STDIO_DEFS
         include(../QYara/qyara.pri)
 }
 

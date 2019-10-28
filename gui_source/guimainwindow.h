@@ -48,10 +48,9 @@ private slots:
     void on_pushButtonOut_clicked();
     void on_pushButtonScan_clicked();
     void _scan();
-
     void on_pushButtonInfo_clicked();
-
     void on_pushButtonRules_clicked();
+    void errorMessage(QString sText);
 
 private:
     Ui::GuiMainWindow *ui;

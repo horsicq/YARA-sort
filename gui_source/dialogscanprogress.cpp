@@ -35,6 +35,7 @@ DialogScanProgress::DialogScanProgress(QWidget *parent) :
 
     connect(pThread, SIGNAL(started()), pScan, SLOT(process()));
     connect(pScan, SIGNAL(completed(qint64)), this, SLOT(onCompleted(qint64)));
+    connect(pScan, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)));
     bIsRun=false;
 
     pTimer=new QTimer(this);

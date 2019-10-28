@@ -49,6 +49,9 @@ private slots:
     void onSetProgressValue(int nValue);
     void timerSlot();
 
+signals:
+    void errorMessage(QString sText);
+
 private:
     Ui::DialogScanProgress *ui;
     ScanProgress *pScan;

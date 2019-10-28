@@ -35,7 +35,6 @@ GuiMainWindow::GuiMainWindow(QWidget *parent) :
     QString sSettingsFile=QApplication::applicationDirPath()+QDir::separator()+QString("%1.ini").arg(X_APPLICATIONNAME);
     QSettings settings(sSettingsFile,QSettings::IniFormat);
 
-
     ui->lineEditDirectoryName->setText(settings.value("DirectoryName",QDir::currentPath()).toString());
     ui->lineEditRules->setText(settings.value("Rules",QDir::currentPath()).toString());
     ui->lineEditOut->setText(settings.value("ResultName",QDir::currentPath()).toString());
@@ -53,6 +52,13 @@ GuiMainWindow::GuiMainWindow(QWidget *parent) :
 
 GuiMainWindow::~GuiMainWindow()
 {
+    QString sSettingsFile=QApplication::applicationDirPath()+QDir::separator()+QString("%1.ini").arg(X_APPLICATIONNAME);
+    QSettings settings(sSettingsFile,QSettings::IniFormat);
+
+    settings.setValue("DirectoryName",ui->lineEditDirectoryName->text());
+    settings.setValue("Rules",ui->lineEditRules->text());
+    settings.setValue("ResultName",ui->lineEditOut->text());
+
     delete ui;
 }
 
@@ -98,6 +104,7 @@ void GuiMainWindow::_scan()
     options.bSubdirectories=ui->checkBoxScanSubdirectories->isChecked();
 
     DialogScanProgress ds(this);
+    connect(&ds,SIGNAL(errorMessage(QString)),this,SLOT(errorMessage(QString)));
 
     ds.setData(ui->lineEditDirectoryName->text(),&options);
 
@@ -125,4 +132,9 @@ void GuiMainWindow::on_pushButtonRules_clicked()
     {
         ui->lineEditRules->setText(sFileName);
     }
+}
+
+void GuiMainWindow::errorMessage(QString sText)
+{
+    QMessageBox::critical(this,"Error",sText);
 }

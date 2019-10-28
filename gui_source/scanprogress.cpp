@@ -265,8 +265,10 @@ void ScanProgress::process()
             setFileStat(scanResult.sFileName,QString::number(scanResult.nScanTime),QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
         }
     }
-
-
+    else
+    {
+        emit errorMessage("Cannot load rules!");
+    }
 
     emit completed(pElapsedTimer->elapsed());
     delete pElapsedTimer;

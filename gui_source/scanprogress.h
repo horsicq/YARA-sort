@@ -72,6 +72,7 @@ public:
 
 signals:
     void completed(qint64 nElapsedTime);
+    void errorMessage(QString sText);
 
 public slots:
     void process();
