@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
 #ifdef Q_OS_MAC
 #ifndef QT_DEBUG
     QString sLibraryPath=QString(argv[0]);
-    sLibraryPath=sLibraryPath.remove("MacOS/nfd-sort")+"PlugIns";
+    sLibraryPath=sLibraryPath.remove("MacOS/yara-sort")+"PlugIns";
     QCoreApplication::setLibraryPaths(QStringList(sLibraryPath));
 #endif
 #endif
