@@ -50,9 +50,12 @@ copy %QT_PATH%\bin\Qt5Core.dll %SOURCE_PATH%\release\%BUILD_NAME%\base\
 copy %QT_PATH%\bin\Qt5Sql.dll %SOURCE_PATH%\release\%BUILD_NAME%\base\
 copy %QT_PATH%\plugins\platforms\qwindows.dll %SOURCE_PATH%\release\%BUILD_NAME%\base\platforms\
 copy %QT_PATH%\plugins\sqldrivers\qsqlite.dll %SOURCE_PATH%\release\%BUILD_NAME%\base\sqldrivers\
+copy %SOURCE_PATH%\QOpenSSL\libs\win32-msvc\libcrypto-1_1.dll %SOURCE_PATH%\release\%BUILD_NAME%\base\
 
 copy %VS_PATH%\VC\Redist\MSVC\14.16.27012\x86\Microsoft.VC141.CRT\msvcp140.dll %SOURCE_PATH%\release\%BUILD_NAME%\base\
 copy %VS_PATH%\VC\Redist\MSVC\14.16.27012\x86\Microsoft.VC141.CRT\vcruntime140.dll %SOURCE_PATH%\release\%BUILD_NAME%\base\
+
+copy %SOURCE_PATH%\packer.yar %SOURCE_PATH%\release\%BUILD_NAME%\base\
 
 cd %SOURCE_PATH%\release
 if exist %ZIP_NAME%.zip del %ZIP_NAME%.zip
