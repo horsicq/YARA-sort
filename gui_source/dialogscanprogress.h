@@ -22,25 +22,25 @@
 #ifndef DIALOGSCANPROGRESS_H
 #define DIALOGSCANPROGRESS_H
 
-#include <QDialog>
-#include <QTimer>
-#include <QThread>
 #include <QDateTime>
+#include <QDialog>
+#include <QThread>
+#include <QTimer>
+
 #include "scanprogress.h"
 
 namespace Ui {
 class DialogScanProgress;
 }
 
-class DialogScanProgress : public QDialog
-{
+class DialogScanProgress : public QDialog {
     Q_OBJECT
 
 public:
     explicit DialogScanProgress(QWidget *parent = 0);
     ~DialogScanProgress();
 
-    void setData(QString sDirectoryName,ScanProgress::SCAN_OPTIONS *pOptions);
+    void setData(QString sDirectoryName, ScanProgress::SCAN_OPTIONS *pOptions);
 
 private slots:
     void on_pushButtonCancel_clicked();
@@ -60,4 +60,4 @@ private:
     QTimer *pTimer;
 };
 
-#endif // DIALOGSCANPROGRESS_H
+#endif  // DIALOGSCANPROGRESS_H

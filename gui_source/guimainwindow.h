@@ -22,11 +22,12 @@
 #ifndef GUIMAINWINDOW_H
 #define GUIMAINWINDOW_H
 
-#include "../global.h"
-#include <QMainWindow>
 #include <QFileDialog>
+#include <QMainWindow>
 #include <QMessageBox>
 #include <QSettings>
+
+#include "../global.h"
 #include "dialogscanprogress.h"
 //#include "staticscan.h"
 
@@ -34,12 +35,11 @@ namespace Ui {
 class GuiMainWindow;
 }
 
-class GuiMainWindow : public QMainWindow
-{
+class GuiMainWindow : public QMainWindow {
     Q_OBJECT
 
 public:
-    explicit GuiMainWindow(QWidget *parent=nullptr);
+    explicit GuiMainWindow(QWidget *parent = nullptr);
     ~GuiMainWindow();
 
 private slots:
@@ -58,4 +58,4 @@ private:
     ScanProgress::SCAN_OPTIONS options;
 };
 
-#endif // GUIMAINWINDOW_H
+#endif  // GUIMAINWINDOW_H

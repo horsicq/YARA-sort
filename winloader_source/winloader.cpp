@@ -20,66 +20,57 @@
 //
 #include <windows.h>
 
-void GetWorkDirectory(char *pszModuleName,char *pszWorkDirectory)
-{
-    int nTotalNumberOfSlashes=0;
-    char *pOffset=pszModuleName;
-    
-    while(*pOffset)
-    {
-        if(*pOffset=='\\')
-        {
+void GetWorkDirectory(char *pszModuleName, char *pszWorkDirectory) {
+    int nTotalNumberOfSlashes = 0;
+    char *pOffset = pszModuleName;
+
+    while (*pOffset) {
+        if (*pOffset == '\\') {
             nTotalNumberOfSlashes++;
         }
         pOffset++;
     }
-    
-    int nCurrentNumberOfSlashes=0;
-    
-    while(*pszModuleName)
-    {
-        if(*pszModuleName=='\\')
-        {
+
+    int nCurrentNumberOfSlashes = 0;
+
+    while (*pszModuleName) {
+        if (*pszModuleName == '\\') {
             nCurrentNumberOfSlashes++;
-            if(nCurrentNumberOfSlashes==nTotalNumberOfSlashes)
-            {
-                *pszWorkDirectory=0;
+            if (nCurrentNumberOfSlashes == nTotalNumberOfSlashes) {
+                *pszWorkDirectory = 0;
                 break;
             }
         }
-        *pszWorkDirectory=*pszModuleName;
+        *pszWorkDirectory = *pszModuleName;
         pszModuleName++;
         pszWorkDirectory++;
     }
 }
 
-void entry()
-{
+void entry() {
     char szModuleFileName[256];
     char szWorkDirectory[256];
     char szArgument[256];
 
-    char *szFile="\\base\\yara-sort.exe";
-    char *szStuff="\\base\\";
+    char *szFile = "\\base\\yara-sort.exe";
+    char *szStuff = "\\base\\";
 
-    char *pszCommandLine=GetCommandLineA();
-    GetModuleFileName(0,szModuleFileName,sizeof(szModuleFileName)-1);
-    
-    int nFileNameLength=lstrlenA(szModuleFileName);
-    
-    if(*(pszCommandLine+nFileNameLength+2))
-    {
-        lstrcpyA(szArgument,pszCommandLine+nFileNameLength+3);
+    char *pszCommandLine = GetCommandLineA();
+    GetModuleFileName(0, szModuleFileName, sizeof(szModuleFileName) - 1);
+
+    int nFileNameLength = lstrlenA(szModuleFileName);
+
+    if (*(pszCommandLine + nFileNameLength + 2)) {
+        lstrcpyA(szArgument, pszCommandLine + nFileNameLength + 3);
     }
-    
-    GetWorkDirectory(szModuleFileName,szWorkDirectory);
-    lstrcpyA(szModuleFileName,szWorkDirectory);
-    lstrcatA(szModuleFileName,szFile);
-    lstrcatA(szWorkDirectory,szStuff);
-    
-    if(ShellExecuteA(0,0,szModuleFileName,szArgument,szWorkDirectory,SW_SHOW)<=(HINSTANCE)32)
-    {
-        MessageBoxA(0,szModuleFileName,"Cannot open",MB_ICONERROR);
+
+    GetWorkDirectory(szModuleFileName, szWorkDirectory);
+    lstrcpyA(szModuleFileName, szWorkDirectory);
+    lstrcatA(szModuleFileName, szFile);
+    lstrcatA(szWorkDirectory, szStuff);
+
+    if (ShellExecuteA(0, 0, szModuleFileName, szArgument, szWorkDirectory, SW_SHOW) <= (HINSTANCE)32) {
+        MessageBoxA(0, szModuleFileName, "Cannot open", MB_ICONERROR);
     }
 
     ExitProcess(0);

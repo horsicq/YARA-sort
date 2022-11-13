@@ -22,24 +22,23 @@
 #ifndef SCANPROGRESS_H
 #define SCANPROGRESS_H
 
+#include <QDateTime>
+#include <QDir>
+#include <QElapsedTimer>
+#include <QFileInfo>
 #include <QObject>
 #include <QSqlDatabase>
 #include <QSqlError>
 #include <QSqlQuery>
-#include <QElapsedTimer>
 #include <QVariant>
-#include <QFileInfo>
-#include <QDir>
-#include <QDateTime>
+
 #include "qyara.h"
 #include "xbinary.h"
 
-class ScanProgress : public QObject
-{
+class ScanProgress : public QObject {
     Q_OBJECT
 public:
-    struct SCAN_OPTIONS
-    {
+    struct SCAN_OPTIONS {
         bool bSubdirectories;
         qint32 nCopyCount;
         QString sRules;
@@ -47,20 +46,19 @@ public:
         QSqlDatabase dbSQLLite;
         bool bContinue;
     };
-    struct STATS
-    {
+    struct STATS {
         qint32 nTotal;
         qint32 nCurrent;
         qint64 nElapsed;
         QString sStatus;
     };
 
-    explicit ScanProgress(QObject *parent=nullptr);
+    explicit ScanProgress(QObject *parent = nullptr);
 
-    void setData(QString sDirectoryName,ScanProgress::SCAN_OPTIONS *pOptions);
+    void setData(QString sDirectoryName, ScanProgress::SCAN_OPTIONS *pOptions);
 
     quint32 getFileCount(quint32 nCRC);
-    void setFileCount(quint32 nCRC,quint32 nCount);
+    void setFileCount(quint32 nCRC, quint32 nCount);
     void setFileStat(QString sFileName, QString sTimeCount, QString sDate);
     void createTables();
     QString getCurrentFileName();
@@ -78,7 +76,7 @@ public slots:
     void process();
     void stop();
     STATS getCurrentStats();
-    static bool createDatabase(QSqlDatabase *pDb,QString sDatabaseName);
+    static bool createDatabase(QSqlDatabase *pDb, QString sDatabaseName);
 
 private:
     QString _sDirectoryName;
@@ -88,4 +86,4 @@ private:
     QElapsedTimer *pElapsedTimer;
 };
 
-#endif // SCANPROGRESS_H
+#endif  // SCANPROGRESS_H

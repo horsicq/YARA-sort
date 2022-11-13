@@ -20,121 +20,106 @@
 //
 
 #include "guimainwindow.h"
+
 #include "ui_guimainwindow.h"
 
-GuiMainWindow::GuiMainWindow(QWidget *parent) :
-    QMainWindow(parent),
-    ui(new Ui::GuiMainWindow)
-{
+GuiMainWindow::GuiMainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::GuiMainWindow) {
     ui->setupUi(this);
 
     setWindowTitle(QString("%1 v%2").arg(X_APPLICATIONNAME).arg(X_APPLICATIONVERSION));
 
-    options={0};
+    options = {0};
 
-    QString sSettingsFile=QApplication::applicationDirPath()+QDir::separator()+QString("%1.ini").arg(X_APPLICATIONNAME);
-    QSettings settings(sSettingsFile,QSettings::IniFormat);
+    QString sSettingsFile = QApplication::applicationDirPath() + QDir::separator() + QString("%1.ini").arg(X_APPLICATIONNAME);
+    QSettings settings(sSettingsFile, QSettings::IniFormat);
 
-    ui->lineEditDirectoryName->setText(settings.value("DirectoryName",QDir::currentPath()).toString());
-    ui->lineEditRules->setText(settings.value("Rules",QDir::currentPath()).toString());
-    ui->lineEditOut->setText(settings.value("ResultName",QDir::currentPath()).toString());
+    ui->lineEditDirectoryName->setText(settings.value("DirectoryName", QDir::currentPath()).toString());
+    ui->lineEditRules->setText(settings.value("Rules", QDir::currentPath()).toString());
+    ui->lineEditOut->setText(settings.value("ResultName", QDir::currentPath()).toString());
 
-    options.bContinue=settings.value("Continue",false).toBool();
-    QString sDatabaseName=settings.value("DatabaseName",":memory:").toString();
-//    QString sDatabaseName=settings.value("DatabaseName","C:\\tmp_build\\yara.db").toString();
+    options.bContinue = settings.value("Continue", false).toBool();
+    QString sDatabaseName = settings.value("DatabaseName", ":memory:").toString();
+    //    QString sDatabaseName=settings.value("DatabaseName","C:\\tmp_build\\yara.db").toString();
 
-    if(!ScanProgress::createDatabase(&options.dbSQLLite,sDatabaseName))
-    {
-        QMessageBox::critical(this,tr("Error"),tr("Cannot open SQLITE database"));
+    if (!ScanProgress::createDatabase(&options.dbSQLLite, sDatabaseName)) {
+        QMessageBox::critical(this, tr("Error"), tr("Cannot open SQLITE database"));
         exit(1);
     }
 }
 
-GuiMainWindow::~GuiMainWindow()
-{
-    QString sSettingsFile=QApplication::applicationDirPath()+QDir::separator()+QString("%1.ini").arg(X_APPLICATIONNAME);
-    QSettings settings(sSettingsFile,QSettings::IniFormat);
+GuiMainWindow::~GuiMainWindow() {
+    QString sSettingsFile = QApplication::applicationDirPath() + QDir::separator() + QString("%1.ini").arg(X_APPLICATIONNAME);
+    QSettings settings(sSettingsFile, QSettings::IniFormat);
 
-    settings.setValue("DirectoryName",ui->lineEditDirectoryName->text());
-    settings.setValue("Rules",ui->lineEditRules->text());
-    settings.setValue("ResultName",ui->lineEditOut->text());
+    settings.setValue("DirectoryName", ui->lineEditDirectoryName->text());
+    settings.setValue("Rules", ui->lineEditRules->text());
+    settings.setValue("ResultName", ui->lineEditOut->text());
 
     delete ui;
 }
 
-void GuiMainWindow::on_pushButtonExit_clicked()
-{
+void GuiMainWindow::on_pushButtonExit_clicked() {
     this->close();
 }
 
-void GuiMainWindow::on_pushButtonOpenDirectory_clicked()
-{
-    QString sInitDirectory=ui->lineEditDirectoryName->text();
+void GuiMainWindow::on_pushButtonOpenDirectory_clicked() {
+    QString sInitDirectory = ui->lineEditDirectoryName->text();
 
-    QString sDirectoryName=QFileDialog::getExistingDirectory(this,tr("Open directory..."),sInitDirectory,QFileDialog::ShowDirsOnly);
+    QString sDirectoryName = QFileDialog::getExistingDirectory(this, tr("Open directory..."), sInitDirectory, QFileDialog::ShowDirsOnly);
 
-    if(!sDirectoryName.isEmpty())
-    {
+    if (!sDirectoryName.isEmpty()) {
         ui->lineEditDirectoryName->setText(sDirectoryName);
     }
 }
 
-void GuiMainWindow::on_pushButtonOut_clicked()
-{
-    QString sInitDirectory=ui->lineEditOut->text();
+void GuiMainWindow::on_pushButtonOut_clicked() {
+    QString sInitDirectory = ui->lineEditOut->text();
 
-    QString sDirectoryName=QFileDialog::getExistingDirectory(this,tr("Open directory..."),sInitDirectory,QFileDialog::ShowDirsOnly);
+    QString sDirectoryName = QFileDialog::getExistingDirectory(this, tr("Open directory..."), sInitDirectory, QFileDialog::ShowDirsOnly);
 
-    if(!sDirectoryName.isEmpty())
-    {
+    if (!sDirectoryName.isEmpty()) {
         ui->lineEditOut->setText(sDirectoryName);
     }
 }
 
-void GuiMainWindow::on_pushButtonScan_clicked()
-{
+void GuiMainWindow::on_pushButtonScan_clicked() {
     _scan();
 }
 
-void GuiMainWindow::_scan()
-{
-    options.nCopyCount=ui->spinBoxCopyCount->value();
-    options.sResultDirectory=ui->lineEditOut->text();
-    options.sRules=ui->lineEditRules->text();
-    options.bSubdirectories=ui->checkBoxScanSubdirectories->isChecked();
+void GuiMainWindow::_scan() {
+    options.nCopyCount = ui->spinBoxCopyCount->value();
+    options.sResultDirectory = ui->lineEditOut->text();
+    options.sRules = ui->lineEditRules->text();
+    options.bSubdirectories = ui->checkBoxScanSubdirectories->isChecked();
 
     DialogScanProgress ds(this);
-    connect(&ds,SIGNAL(errorMessage(QString)),this,SLOT(errorMessage(QString)));
+    connect(&ds, SIGNAL(errorMessage(QString)), this, SLOT(errorMessage(QString)));
 
-    ds.setData(ui->lineEditDirectoryName->text(),&options);
+    ds.setData(ui->lineEditDirectoryName->text(), &options);
 
     ds.exec();
 
-//    DialogStaticScan ds(this);
-//    connect(&ds, SIGNAL(scanFileStarted(QString)),this,SLOT(scanFileStarted(QString)),Qt::DirectConnection);
-//    connect(&ds, SIGNAL(scanResult(SpecAbstract::SCAN_RESULT)),this,SLOT(scanResult(SpecAbstract::SCAN_RESULT)),Qt::DirectConnection);
-//    ds.setData(ui->lineEditDirectoryName->text(),&options);
-//    ds.exec();
+    //    DialogStaticScan ds(this);
+    //    connect(&ds, SIGNAL(scanFileStarted(QString)),this,SLOT(scanFileStarted(QString)),Qt::DirectConnection);
+    //    connect(&ds, SIGNAL(scanResult(SpecAbstract::SCAN_RESULT)),this,SLOT(scanResult(SpecAbstract::SCAN_RESULT)),Qt::DirectConnection);
+    //    ds.setData(ui->lineEditDirectoryName->text(),&options);
+    //    ds.exec();
 }
 
-void GuiMainWindow::on_pushButtonInfo_clicked()
-{
-    QMessageBox::information(this,tr("Info"),tr("Bugreports: horsicq@gmail.com"));
+void GuiMainWindow::on_pushButtonInfo_clicked() {
+    QMessageBox::information(this, tr("Info"), tr("Bugreports: horsicq@gmail.com"));
 }
 
-void GuiMainWindow::on_pushButtonRules_clicked()
-{
-    QString sInitDirectory=ui->lineEditRules->text();
+void GuiMainWindow::on_pushButtonRules_clicked() {
+    QString sInitDirectory = ui->lineEditRules->text();
 
-    QString sFileName=QFileDialog::getOpenFileName(this,tr("Open YARA rules file..."),sInitDirectory,"YARA rules files (*.yar)");
+    QString sFileName = QFileDialog::getOpenFileName(this, tr("Open YARA rules file..."), sInitDirectory, "YARA rules files (*.yar)");
 
-    if(!sFileName.isEmpty())
-    {
+    if (!sFileName.isEmpty()) {
         ui->lineEditRules->setText(sFileName);
     }
 }
 
-void GuiMainWindow::errorMessage(QString sText)
-{
-    QMessageBox::critical(this,"Error",sText);
+void GuiMainWindow::errorMessage(QString sText) {
+    QMessageBox::critical(this, "Error", sText);
 }
