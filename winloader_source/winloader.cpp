@@ -20,7 +20,8 @@
 //
 #include <windows.h>
 
-void GetWorkDirectory(char *pszModuleName, char *pszWorkDirectory) {
+void GetWorkDirectory(char *pszModuleName, char *pszWorkDirectory)
+{
     int nTotalNumberOfSlashes = 0;
     char *pOffset = pszModuleName;
 
@@ -47,7 +48,8 @@ void GetWorkDirectory(char *pszModuleName, char *pszWorkDirectory) {
     }
 }
 
-void entry() {
+void entry()
+{
     char szModuleFileName[256];
     char szWorkDirectory[256];
     char szArgument[256];

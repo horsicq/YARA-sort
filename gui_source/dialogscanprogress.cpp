@@ -23,7 +23,8 @@
 
 #include "ui_dialogscanprogress.h"
 
-DialogScanProgress::DialogScanProgress(QWidget *parent) : QDialog(parent), ui(new Ui::DialogScanProgress) {
+DialogScanProgress::DialogScanProgress(QWidget *parent) : QDialog(parent), ui(new Ui::DialogScanProgress)
+{
     ui->setupUi(this);
 
     pScan = new ScanProgress;
@@ -40,7 +41,8 @@ DialogScanProgress::DialogScanProgress(QWidget *parent) : QDialog(parent), ui(ne
     connect(pTimer, SIGNAL(timeout()), this, SLOT(timerSlot()));
 }
 
-DialogScanProgress::~DialogScanProgress() {
+DialogScanProgress::~DialogScanProgress()
+{
     if (bIsRun) {
         pScan->stop();
     }
@@ -56,7 +58,8 @@ DialogScanProgress::~DialogScanProgress() {
     delete pScan;
 }
 
-void DialogScanProgress::setData(QString sDirectoryName, ScanProgress::SCAN_OPTIONS *pOptions) {
+void DialogScanProgress::setData(QString sDirectoryName, ScanProgress::SCAN_OPTIONS *pOptions)
+{
     bIsRun = true;
     pScan->setData(sDirectoryName, pOptions);
     pThread->start();
@@ -64,7 +67,8 @@ void DialogScanProgress::setData(QString sDirectoryName, ScanProgress::SCAN_OPTI
     ui->progressBarTotal->setMaximum(100);
 }
 
-void DialogScanProgress::on_pushButtonCancel_clicked() {
+void DialogScanProgress::on_pushButtonCancel_clicked()
+{
     if (bIsRun) {
         pScan->stop();
         pTimer->stop();
@@ -72,20 +76,24 @@ void DialogScanProgress::on_pushButtonCancel_clicked() {
     }
 }
 
-void DialogScanProgress::onCompleted(qint64 nElapsed) {
+void DialogScanProgress::onCompleted(qint64 nElapsed)
+{
     bIsRun = false;
     this->close();
 }
 
-void DialogScanProgress::onSetProgressMaximum(int nValue) {
+void DialogScanProgress::onSetProgressMaximum(int nValue)
+{
     ui->progressBarTotal->setMaximum(nValue);
 }
 
-void DialogScanProgress::onSetProgressValue(int nValue) {
+void DialogScanProgress::onSetProgressValue(int nValue)
+{
     ui->progressBarTotal->setMaximum(nValue);
 }
 
-void DialogScanProgress::timerSlot() {
+void DialogScanProgress::timerSlot()
+{
     ScanProgress::STATS stats = pScan->getCurrentStats();
 
     ui->labelTotal->setText(QString::number(stats.nTotal));

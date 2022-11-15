@@ -23,7 +23,8 @@
 
 #include "ui_guimainwindow.h"
 
-GuiMainWindow::GuiMainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::GuiMainWindow) {
+GuiMainWindow::GuiMainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::GuiMainWindow)
+{
     ui->setupUi(this);
 
     setWindowTitle(QString("%1 v%2").arg(X_APPLICATIONNAME).arg(X_APPLICATIONVERSION));
@@ -47,7 +48,8 @@ GuiMainWindow::GuiMainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::
     }
 }
 
-GuiMainWindow::~GuiMainWindow() {
+GuiMainWindow::~GuiMainWindow()
+{
     QString sSettingsFile = QApplication::applicationDirPath() + QDir::separator() + QString("%1.ini").arg(X_APPLICATIONNAME);
     QSettings settings(sSettingsFile, QSettings::IniFormat);
 
@@ -58,11 +60,13 @@ GuiMainWindow::~GuiMainWindow() {
     delete ui;
 }
 
-void GuiMainWindow::on_pushButtonExit_clicked() {
+void GuiMainWindow::on_pushButtonExit_clicked()
+{
     this->close();
 }
 
-void GuiMainWindow::on_pushButtonOpenDirectory_clicked() {
+void GuiMainWindow::on_pushButtonOpenDirectory_clicked()
+{
     QString sInitDirectory = ui->lineEditDirectoryName->text();
 
     QString sDirectoryName = QFileDialog::getExistingDirectory(this, tr("Open directory..."), sInitDirectory, QFileDialog::ShowDirsOnly);
@@ -72,7 +76,8 @@ void GuiMainWindow::on_pushButtonOpenDirectory_clicked() {
     }
 }
 
-void GuiMainWindow::on_pushButtonOut_clicked() {
+void GuiMainWindow::on_pushButtonOut_clicked()
+{
     QString sInitDirectory = ui->lineEditOut->text();
 
     QString sDirectoryName = QFileDialog::getExistingDirectory(this, tr("Open directory..."), sInitDirectory, QFileDialog::ShowDirsOnly);
@@ -82,11 +87,13 @@ void GuiMainWindow::on_pushButtonOut_clicked() {
     }
 }
 
-void GuiMainWindow::on_pushButtonScan_clicked() {
+void GuiMainWindow::on_pushButtonScan_clicked()
+{
     _scan();
 }
 
-void GuiMainWindow::_scan() {
+void GuiMainWindow::_scan()
+{
     options.nCopyCount = ui->spinBoxCopyCount->value();
     options.sResultDirectory = ui->lineEditOut->text();
     options.sRules = ui->lineEditRules->text();
@@ -106,11 +113,13 @@ void GuiMainWindow::_scan() {
     //    ds.exec();
 }
 
-void GuiMainWindow::on_pushButtonInfo_clicked() {
+void GuiMainWindow::on_pushButtonInfo_clicked()
+{
     QMessageBox::information(this, tr("Info"), tr("Bugreports: horsicq@gmail.com"));
 }
 
-void GuiMainWindow::on_pushButtonRules_clicked() {
+void GuiMainWindow::on_pushButtonRules_clicked()
+{
     QString sInitDirectory = ui->lineEditRules->text();
 
     QString sFileName = QFileDialog::getOpenFileName(this, tr("Open YARA rules file..."), sInitDirectory, "YARA rules files (*.yar)");
@@ -120,6 +129,7 @@ void GuiMainWindow::on_pushButtonRules_clicked() {
     }
 }
 
-void GuiMainWindow::errorMessage(QString sText) {
+void GuiMainWindow::errorMessage(QString sText)
+{
     QMessageBox::critical(this, "Error", sText);
 }
