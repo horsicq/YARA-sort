@@ -23,7 +23,8 @@
 
 #include "ui_dialogscanprogress.h"
 
-DialogScanProgress::DialogScanProgress(QWidget *parent) : QDialog(parent), ui(new Ui::DialogScanProgress)
+DialogScanProgress::DialogScanProgress(QWidget *parent)
+    : QDialog(parent), ui(new Ui::DialogScanProgress)
 {
     ui->setupUi(this);
 
