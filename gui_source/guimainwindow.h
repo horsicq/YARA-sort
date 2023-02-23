@@ -29,7 +29,7 @@
 
 #include "../global.h"
 #include "dialogscanprogress.h"
-//#include "staticscan.h"
+// #include "staticscan.h"
 
 namespace Ui {
 class GuiMainWindow;
