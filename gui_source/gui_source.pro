@@ -27,6 +27,12 @@ FORMS += \
         include(../QYara/qyara.pri)
 }
 
+#!contains(XCONFIG, xyara) {
+#        XCONFIG += xyara
+##        DEFINES += X_YARA_LEGACY_STDIO_DEFS
+#        include(../../_mylibs/XYara/xyara.pri)
+#}
+
 !contains(XCONFIG, xbinary) {
         XCONFIG += xbinary
         include(../Formats/xbinary.pri)
